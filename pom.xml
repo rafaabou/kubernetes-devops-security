@@ -48,35 +48,26 @@
 
 		</plugins>
 	</build>
-     <build>
+
+	<build>
 		<plugins>
-<plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.5</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-        <execution>
-            <phase>test</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-            <configuration>
-                <outputDirectory>${project.build.directory}/jacoco-report</outputDirectory>
-                <reports>
-                    <reportFormats>
-                        <reportFormat>html</reportFormat>
-                        <reportFormat>xml</reportFormat>
-                    </reports>
-                </reports>
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
-	</plugins>
-	</build>     
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version> <executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+        <plugins>
+            <plugin>
+    </build>
+
+
 </project>
