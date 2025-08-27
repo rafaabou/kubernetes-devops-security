@@ -42,13 +42,13 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    try {
-                        withSonarQubeEnv('SonarQube') {
-                            sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app'"
-                        }
-                    } catch (Exception e) {
-                        echo "SonarQube analysis skipped: ${e.message}"
-                        echo "Please configure SonarQube server in Jenkins if you want to run analysis"
+                    def mvn = tool 'Default Maven' // Ensure Maven is installed and configured
+                    withSonarQubeEnv() {
+                        sh "${mvn}/bin/mvn clean verify sonar:sonar " +
+                           "-Dsonar.projectKey=num-app " +
+                           "-Dsonar.projectName='num-app' " +
+                           "-Dsonar.host.url=http://192.168.10.15:9000 " +
+                           "-Dsonar.token=sqp_0ee5e69137dbdcb58b3b31600ee2bde9ab4003e6"
                     }
                 }
             }
