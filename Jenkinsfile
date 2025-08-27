@@ -41,12 +41,11 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                
-                        sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app' -Dsonar.login=sqp_5ad07007b3d40add880beda7351c7448e815384b -Dsonar.host.url=http://192.168.10.15:9000/"
-                    }
+                withSonarQubeEnv() {
+                    sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app'"
                 }
-            
-    
+            }
+        }
 
         stage('Kubernetes Deployment - DEV') {
             steps {
@@ -59,7 +58,7 @@ pipeline {
                             // Apply the Kubernetes deployment configuration
                             sh "kubectl apply -f k8s_deployment_service.yaml"
                             // Check deployment status
-                            sh "kubectl rollout status deployment/numeric-app"
+                            sh "kubectl rollout status deployment/devsecops"
                         } catch (Exception e) {
                             error "Deployment failed: ${e.message}"
                         }
