@@ -41,14 +41,12 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    def mvn = tool 'Default Maven'
-                    withSonarQubeEnv() {
-                        sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app' -Dsonar.login=sqp_5ad07007b3d40add880beda7351c7448e815384b -Dsonar.host.url=http://192.168.10.15:9000/"
+                
+                        sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app' -Dsonar.login=sqp_5ad07007b3d40add880beda7351c7448e815384b -Dsonar.host.url=http://192.168.10.15:9000/"
                     }
                 }
-            }
-        }
+            
+    
 
         stage('Kubernetes Deployment - DEV') {
             steps {
