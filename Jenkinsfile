@@ -28,15 +28,16 @@ pipeline {
 
         stage('Mutation Tests - PIT') {
             steps {
+                // Run mutation tests using PIT
                 sh "mvn org.pitest:pitest-maven:mutationCoverage"
-      }
+            }
             post {
                 always {
+                    // Publish PIT mutation test results
                     pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+                }
+            }
         }
-      }
-    }
-        
 
         stage('Kubernetes Deployment - DEV') {
             steps {
@@ -48,7 +49,6 @@ pipeline {
                     sh "kubectl apply -f k8s_deployment_service.yaml"
                 }
             }
-
         }
     }
 }
