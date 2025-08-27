@@ -41,8 +41,15 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv() {
-                    sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app'"
+                script {
+                    try {
+                        withSonarQubeEnv('SonarQube') {
+                            sh "mvn sonar:sonar -Dsonar.projectKey=num-app -Dsonar.projectName='num-app'"
+                        }
+                    } catch (Exception e) {
+                        echo "SonarQube analysis skipped: ${e.message}"
+                        echo "Please configure SonarQube server in Jenkins if you want to run analysis"
+                    }
                 }
             }
         }
